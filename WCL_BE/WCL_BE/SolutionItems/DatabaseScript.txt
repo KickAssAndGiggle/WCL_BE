@@ -1,0 +1,72 @@
+﻿CREATE SCHEMA account
+GO
+CREATE SCHEMA logging
+GO
+
+
+
+
+
+CREATE PROCEDURE [account].[AddAccessToken]
+	@AccountId bigint,
+	@Token nvarchar(50)
+AS
+BEGIN
+	INSERT INTO Token VALUES (@AccountId, @Token, DATEADD(mi, 45, GETDATE()))
+	UPDATE Account SET LastLoginDate = GETDATE() WHERE Id = @AccountId
+END
+GO
+
+CREATE PROCEDURE account.ExtendAccessToken
+	@Token nvarchar(50)
+AS
+BEGIN
+	UPDATE Token SET ValidTo = DATEADD(mi, 45, GETDATE()) WHERE Token = @Token
+END
+GO
+
+CREATE PROCEDURE account.CheckToken
+	@Token nvarchar(50)
+AS
+BEGIN
+	SELECT ISNULL(AccountId, 0) FROM Token WHERE Token = @Token AND ValidTo > GETDATE()
+END
+GO
+
+CREATE PROCEDURE account.CreateNew
+	@Email nvarchar(255),
+	@DisplayName nvarchar(25),
+	@Password nvarchar(255),
+	@Salt nvarchar(12),
+	@GymName nvarchar(50),
+	@CountryId bigint,
+	@CityId bigint
+AS
+BEGIN
+	
+	DECLARE @NewAccount bigint
+	INSERT INTO Account VALUES (@Email, @DisplayName, @Password, @Salt, NULL, NULL, NULL, GETDATE())
+	
+	SET @NewAccount = @@IDENTITY
+	INSERT INTO Gym VALUES (@NewAccount, @GymName, 100000, 100000, @CountryId, @CityId, GETDATE(), 0)
+
+END
+GO
+
+CREATE PROCEDURE logging.LogError
+	@SourceLocation nvarchar(512),
+	@ErrorMessage nvarchar(4000),
+	@AccountId bigint
+AS
+BEGIN
+	INSERT INTO ErrorLog VALUES (@SourceLocation, @ErrorMessage, @AccountId, GETDATE())
+END
+GO
+
+CREATE PROCEDURE account.GetByEmail
+	@Email nvarchar(255)
+AS
+BEGIN
+	SELECT TOP 1 * FROM Account WHERE LOWER(Email) = LOWER(@Email)
+END
+GO
