@@ -3,6 +3,17 @@
     public class APIRequests
     {
 
+        public struct TokenOnlyRequest
+        {
+            public string Token {  get; set; }
+        }
+
+        public struct IdOnlyRequest
+        {
+            public string Token { get; set; }
+            public long Id { get; set; }
+        }
+
         public struct LoginRequest
         {
             public string Email { get; set; }

@@ -7,6 +7,7 @@ namespace WCL_BE.Helpers
     {
 
         public const string GENERIC_ERROR = "A non-specific error occurred. Please contact support for assistance.";
+        public const string TOKEN_ERROR = "Token invalid or expired";
 
         public static GenericResponse CreateSuccessResponseNoData()
         {

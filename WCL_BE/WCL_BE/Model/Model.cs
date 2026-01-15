@@ -1,14 +1,51 @@
-﻿using System.Collections;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Identity.Client;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Reflection;
+using System.Runtime.Intrinsics.X86;
 
 namespace WCL_BE.Model
 {
     public class Model
     {
 
-
-
+        public class Fighter
+        {
+            public long Id;
+            public long? GymId;
+            public bool Associated;
+            public long CountryId;
+            public long CityId;
+            public long BackgroundId;
+            public string FirstName;
+            public string Surname;
+            public string? Nickname;
+            public int Age;
+            public int Chin;
+            public int Heart;
+            public int Strength;
+            public int Agility;
+            public int Jabs;
+            public int Crosses;
+            public int Hooks;
+            public int Uppercuts;
+            public int Legkicks;
+            public int Bodykicks;
+            public int Headkicks;
+            public int Backfists;
+            public int Elbows;
+            public int Kneestrikes;
+            public int Takedowns;
+            public int Clinch;
+            public int Wrestling;
+            public int Groundguard;
+            public int Chokes;
+            public int Armbars;
+            public int Leglocks;
+        }
 
         public static object ModelMaker(DataTable tab, Type type)
         {

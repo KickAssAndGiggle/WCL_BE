@@ -30,6 +30,14 @@ namespace WCL_BE
 
             app.MapControllers();
 
+            app.UseCors(corsPolicyBuilder =>
+            {
+                corsPolicyBuilder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
+
             app.Run();
         }
     }

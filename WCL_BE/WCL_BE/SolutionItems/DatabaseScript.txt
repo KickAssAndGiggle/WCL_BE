@@ -2,71 +2,64 @@
 GO
 CREATE SCHEMA logging
 GO
-
-
-
-
-
-CREATE PROCEDURE [account].[AddAccessToken]
-	@AccountId bigint,
-	@Token nvarchar(50)
-AS
-BEGIN
-	INSERT INTO Token VALUES (@AccountId, @Token, DATEADD(mi, 45, GETDATE()))
-	UPDATE Account SET LastLoginDate = GETDATE() WHERE Id = @AccountId
-END
+CREATE SCHEMA fighter
+GO
+CREATE SCHEMA gym
 GO
 
-CREATE PROCEDURE account.ExtendAccessToken
-	@Token nvarchar(50)
-AS
-BEGIN
-	UPDATE Token SET ValidTo = DATEADD(mi, 45, GETDATE()) WHERE Token = @Token
-END
-GO
+INSERT INTO Background VALUES ('No previous discipline')
+INSERT INTO Background VALUES ('Boxing')
+INSERT INTO Background VALUES ('Kickboxing')
+INSERT INTO Background VALUES ('Karate')
+INSERT INTO Background VALUES ('Wrestling')
+INSERT INTO Background VALUES ('Jujitsu')
+INSERT INTO Background VALUES ('Judo')
+INSERT INTO Background VALUES ('Muay Thai')
 
-CREATE PROCEDURE account.CheckToken
-	@Token nvarchar(50)
-AS
-BEGIN
-	SELECT ISNULL(AccountId, 0) FROM Token WHERE Token = @Token AND ValidTo > GETDATE()
-END
-GO
+INSERT INTO Country VALUES ('England')
+INSERT INTO Country VALUES ('USA')
+INSERT INTO Country VALUES ('Scotland')
+INSERT INTO Country VALUES ('Wales')
+INSERT INTO Country VALUES ('Northern Ireland')
+INSERT INTO Country VALUES ('Ireland')
+INSERT INTO Country VALUES ('Canada')
+INSERT INTO Country VALUES ('France')
+INSERT INTO Country VALUES ('Germany')
+INSERT INTO Country VALUES ('Australia')
+INSERT INTO Country VALUES ('New Zealand')
 
-CREATE PROCEDURE account.CreateNew
-	@Email nvarchar(255),
-	@DisplayName nvarchar(25),
-	@Password nvarchar(255),
-	@Salt nvarchar(12),
-	@GymName nvarchar(50),
-	@CountryId bigint,
-	@CityId bigint
-AS
-BEGIN
-	
-	DECLARE @NewAccount bigint
-	INSERT INTO Account VALUES (@Email, @DisplayName, @Password, @Salt, NULL, NULL, NULL, GETDATE())
-	
-	SET @NewAccount = @@IDENTITY
-	INSERT INTO Gym VALUES (@NewAccount, @GymName, 100000, 100000, @CountryId, @CityId, GETDATE(), 0)
+INSERT INTO City VALUES (1, 'London')
+INSERT INTO City VALUES (1, 'Birmingham')
+INSERT INTO City VALUES (1, 'Manchester')
+INSERT INTO City VALUES (2, 'New York')
+INSERT INTO City VALUES (2, 'Las Vegas')
+INSERT INTO City VALUES (2, 'Seattle')
+INSERT INTO City VALUES (3, 'Glasgow')
+INSERT INTO City VALUES (3, 'Edinburgh')
+INSERT INTO City VALUES (3, 'Aberdeen')
+INSERT INTO City VALUES (4, 'Cardiff')
+INSERT INTO City VALUES (4, 'Swansea')
+INSERT INTO City VALUES (4, 'Port Talbot')
+INSERT INTO City VALUES (5, 'Belfast')
+INSERT INTO City VALUES (5, 'Londonderry')
+INSERT INTO City VALUES (5, 'Lisburn')
+INSERT INTO City VALUES (6, 'Dublin')
+INSERT INTO City VALUES (6, 'Cork')
+INSERT INTO City VALUES (6, 'Limerick')
+INSERT INTO City VALUES (7, 'Toronto')
+INSERT INTO City VALUES (7, 'Montreal')
+INSERT INTO City VALUES (7, 'Vancouver')
+INSERT INTO City VALUES (8, 'Paris')
+INSERT INTO City VALUES (8, 'Marseille')
+INSERT INTO City VALUES (8, 'Bordeaux')
+INSERT INTO City VALUES (9, 'Berlin')
+INSERT INTO City VALUES (9, 'Dusseldorf')
+INSERT INTO City VALUES (9, 'Dortmund')
+INSERT INTO City VALUES (10, 'Canberra')
+INSERT INTO City VALUES (10, 'Melbourne')
+INSERT INTO City VALUES (10, 'Sydney')
+INSERT INTO City VALUES (11, 'Auckland')
+INSERT INTO City VALUES (11, 'Christchurch')
+INSERT INTO City VALUES (11, 'Wellington')
 
-END
-GO
 
-CREATE PROCEDURE logging.LogError
-	@SourceLocation nvarchar(512),
-	@ErrorMessage nvarchar(4000),
-	@AccountId bigint
-AS
-BEGIN
-	INSERT INTO ErrorLog VALUES (@SourceLocation, @ErrorMessage, @AccountId, GETDATE())
-END
-GO
-
-CREATE PROCEDURE account.GetByEmail
-	@Email nvarchar(255)
-AS
-BEGIN
-	SELECT TOP 1 * FROM Account WHERE LOWER(Email) = LOWER(@Email)
-END
-GO
