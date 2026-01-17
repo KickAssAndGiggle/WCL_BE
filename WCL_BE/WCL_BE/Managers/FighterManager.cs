@@ -42,6 +42,154 @@ namespace WCL_BE.Managers
                 age = _rnd.Next(18, 34);
             }
 
+            int height;
+            // Max height is 28
+            if (_rnd.Next(1, 100) < 94)
+            {
+                // Make it very likely that fighter is not very very short or very very tall
+                height = _rnd.Next(5, 23);
+            }
+            else
+            {
+                // Rarer fighters, very short or very tall
+                int extreme = _rnd.Next(1, 100);
+                if (extreme < 10)
+                {
+                    height = 1;
+                }
+                else if (extreme < 20)
+                {
+                    height = 2;
+                }
+                else if (extreme < 30)
+                {
+                    height = 3;
+                }
+                else if (extreme < 40)
+                {
+                    height = 4;
+                }
+                else if (extreme < 50)
+                {
+                    height = 23;
+                }
+                else if (extreme < 60)
+                {
+                    height = 24;
+                }
+                else if (extreme < 70)
+                {
+                    height = 25;
+                }
+                else if (extreme < 80)
+                {
+                    height = 26;
+                }
+                else if (extreme < 90)
+                {
+                    height = 27;
+                }
+                else
+                {
+                    height = 28;
+                }
+            }
+
+            int weightClass;
+            //1 = fly, 8 = heavy
+            if (height < 5)
+            {
+                weightClass = 1;
+            }
+            else if (height < 8)
+            {
+                if (FiftyFifty())
+                {
+                    weightClass = 1;
+                }
+                else
+                {
+                    weightClass = 2;
+                }
+            }
+            else if (height < 10)
+            {
+                if (FiftyFifty())
+                {
+                    weightClass = 2;
+                }
+                else
+                {
+                    weightClass = 3;
+                }
+            }
+            else if (height < 13)
+            {
+                if (FiftyFifty())
+                {
+                    weightClass = 3;
+                }
+                else
+                {
+                    weightClass = 4;
+                }
+            }
+            else if (height < 15)
+            {
+                int heightRan = _rnd.Next(1, 100);
+                if (heightRan < 30)
+                {
+                    weightClass = 4;
+                }
+                else if (heightRan < 65)
+                {
+                    weightClass = 5;
+                }
+                else if (heightRan < 85)
+                {
+                    weightClass = 6;
+                }
+                else
+                {
+                    weightClass = 7;
+                }
+            }
+            else if (height < 20)
+            {
+                int heightRan = _rnd.Next(1, 100);
+                if (heightRan < 10)
+                {
+                    weightClass = 5;
+                }
+                else if (heightRan < 45)
+                {
+                    weightClass = 6;
+                }
+                else if (heightRan < 65)
+                {
+                    weightClass = 7;
+                }
+                else
+                {
+                    weightClass = 8;
+                }
+            }
+            else if (height < 24)
+            {
+                if (FiftyFifty())
+                {
+                    weightClass = 7;
+                }
+                else
+                {
+                    weightClass = 8;
+                }
+            }
+            else
+            {
+                weightClass = 8;
+            }
+            
             int physicalModifier = _rnd.Next(0, 10);
 
             // Chin
@@ -205,9 +353,10 @@ namespace WCL_BE.Managers
             }
 
             // ###TODO - generate a sensible name for the country
-            _db.CreateFighter(gymId, country, city, background, "Jim", "Jackson", age, chin, heart, strength, agility,
-                stamina, jabs, crosses, hooks, uppercuts, legKicks, bodyKicks, headKicks, backFists, elbows, kneeStrikes,
-                takedowns, clinch, takedownDefence, headMovement, footwork, wrestling, groundGuard, chokes, armbars, legLocks);
+            _db.CreateFighter(gymId, country, city, background, weightClass, height, "Jim", "Jackson", age, chin, heart, 
+                strength, agility, stamina, jabs, crosses, hooks, uppercuts, legKicks, bodyKicks, headKicks, backFists, elbows, 
+                kneeStrikes, takedowns, clinch, takedownDefence, headMovement, footwork, wrestling, groundGuard, chokes, 
+                armbars, legLocks);
 
         }
 

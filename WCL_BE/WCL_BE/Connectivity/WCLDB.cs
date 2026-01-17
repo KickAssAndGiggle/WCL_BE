@@ -95,10 +95,11 @@ namespace WCL_BE.Connectivity
         }
 
 
-        public void CreateFighter(long? gymId, long countryId, long cityId, long backgroundId, string firstName, string surname,
-            int age, int chin, int heart, int strength, int agility, int stamina, int jabs, int crosses, int hooks, int uppercuts,
-            int legKicks, int bodyKicks, int headKicks, int backfists, int elbows, int kneestrikes, int takedowns, int clinch, 
-            int takedownDefence, int headMovement, int footwork, int wrestling, int groundGuard, int chokes, int armbars, int leglocks)
+        public void CreateFighter(long? gymId, long countryId, long cityId, long backgroundId, long weightId, long heightId, 
+            string firstName, string surname, int age, int chin, int heart, int strength, int agility, int stamina, 
+            int jabs, int crosses, int hooks, int uppercuts, int legKicks, int bodyKicks, int headKicks, int backfists, 
+            int elbows, int kneestrikes, int takedowns, int clinch, int takedownDefence, int headMovement, int footwork, 
+            int wrestling, int groundGuard, int chokes, int armbars, int leglocks)
         {
             List<SqlParameter> sqlParams = new();
             if (gymId != null)
@@ -108,6 +109,8 @@ namespace WCL_BE.Connectivity
             sqlParams.Add(_conn.GenerateInputLong("@CountryId", countryId));
             sqlParams.Add(_conn.GenerateInputLong("@CityId", cityId));
             sqlParams.Add(_conn.GenerateInputLong("@BackgroundId", backgroundId));
+            sqlParams.Add(_conn.GenerateInputLong("@WeightId", weightId));
+            sqlParams.Add(_conn.GenerateInputLong("@HeightId", heightId));
             sqlParams.Add(_conn.GenerateInputString("@FirstName", firstName, 50));
             sqlParams.Add(_conn.GenerateInputString("@Surname", surname, 50));
             sqlParams.Add(_conn.GenerateInputInteger("@Age", age));
@@ -138,6 +141,13 @@ namespace WCL_BE.Connectivity
             sqlParams.Add(_conn.GenerateInputInteger("@Leglocks", leglocks));
             _conn.ExecuteStoredProcedureNoReturn("fighter.CreateNew", sqlParams.ToArray());
 
+        }
+
+        public DataTable GetProspects(long gymId)
+        {
+            List<SqlParameter> sqlParams = new();
+            sqlParams.Add(_conn.GenerateInputLong("@GymId", gymId));
+            return _conn.ExecuteStoredProcedureAsDataTable("fighter.GetProspects", sqlParams.ToArray());
         }
     }
 }
