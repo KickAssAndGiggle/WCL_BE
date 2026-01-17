@@ -16,20 +16,11 @@ namespace WCL_BE
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
+            app.UseSwagger();
+            app.UseSwaggerUI();
             app.UseHttpsRedirection();
-
-            //app.UseAuthorization();
-
-
+            app.UseAuthorization();
             app.MapControllers();
-
             app.UseCors(corsPolicyBuilder =>
             {
                 corsPolicyBuilder
@@ -37,7 +28,6 @@ namespace WCL_BE
                 .AllowAnyMethod()
                 .AllowAnyHeader();
             });
-
             app.Run();
         }
     }
