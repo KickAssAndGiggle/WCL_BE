@@ -18,8 +18,15 @@ namespace WCL_BE.Model
             public long? GymId;
             public bool Associated;
             public long CountryId;
+            public string Country;
             public long CityId;
+            public string City;
             public long BackgroundId;
+            public string Background;
+            public long WeightclassId;
+            public string Weightclass;
+            public long HeightId;
+            public string Height;
             public string FirstName;
             public string Surname;
             public string? Nickname;
@@ -28,6 +35,7 @@ namespace WCL_BE.Model
             public int Heart;
             public int Strength;
             public int Agility;
+            public int Stamina;
             public int Jabs;
             public int Crosses;
             public int Hooks;
@@ -40,6 +48,9 @@ namespace WCL_BE.Model
             public int Kneestrikes;
             public int Takedowns;
             public int Clinch;
+            public int TakedownDefence;
+            public int HeadMovement;
+            public int Footwork;
             public int Wrestling;
             public int Groundguard;
             public int Chokes;

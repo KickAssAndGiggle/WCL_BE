@@ -92,7 +92,7 @@ namespace WCL_BE.Processors
                     // If a gym has less than 5 dedicated prospects, create some
                     // ###TODO - maybe stop people gaming the system by logging in repeatedly to generate more?
                     FighterManager fm = new(_config);
-                    for (int nn = 0; nn <= (5 - prospectCount); nn++)
+                    for (int nn = 0; nn < (5 - prospectCount); nn++)
                     {
                         fm.CreateFighter(gymId);
                     }
@@ -101,7 +101,6 @@ namespace WCL_BE.Processors
             }
             catch (Exception ex)
             {
-                // We do not have a userId at this point, so log under account 0
                 _db.LogError(MethodBase.GetCurrentMethod()?.Module + "/" + MethodBase.GetCurrentMethod()?.Name!,
                     ex.Message + " " + ex.StackTrace, accountId);
                 return CreateFailureResponse(GENERIC_ERROR);
