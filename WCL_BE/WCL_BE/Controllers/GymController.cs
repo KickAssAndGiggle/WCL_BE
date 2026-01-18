@@ -34,5 +34,17 @@ namespace WCL_BE.Controllers
 
         }
 
+        [HttpPost]
+        public string InviteToGym(IdOnlyRequest req)
+        {
+            long accountId = _security.CheckToken(req.Token);
+            if (accountId < 1)
+            {
+                return JsonConvert.SerializeObject(new GenericResponse() { Result = false, ErrorMessage = TOKEN_ERROR });
+            }
+            GenericResponse ret = _proc.AcceptProspectToGym(req.Id, accountId);
+            return JsonConvert.SerializeObject(ret, Formatting.Indented);
+        }
+
     }
 }

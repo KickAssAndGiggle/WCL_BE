@@ -35,5 +35,22 @@ namespace WCL_BE.Processors
             }
         }
 
+        public GenericResponse AcceptProspectToGym(long prospectId, long accountId)
+        {
+            try
+            {
+                long gymId = _db.GetGymFromAccount(accountId);
+                _db.AcceptFighterToGym(prospectId, gymId);
+                return CreateSuccessResponseNoData();
+            }
+            catch (Exception ex)
+            {
+                _db.LogError(MethodBase.GetCurrentMethod()?.Module + "/" + MethodBase.GetCurrentMethod()?.Name!,
+                    ex.Message + " " + ex.StackTrace, accountId);
+                return CreateFailureResponse(GENERIC_ERROR);
+            }
+        }
+
+
     }
 }
