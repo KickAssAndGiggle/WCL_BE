@@ -81,6 +81,13 @@ namespace WCL_BE.Connectivity
             return _conn.ExecuteStoredProcedureAsScalarInt("fighter.GetGymSpecificProspectCount", sqlParams.ToArray());
         }
 
+        public int GetStaffSpecificProspectCount(long gymId)
+        {
+            List<SqlParameter> sqlParams = new();
+            sqlParams.Add(_conn.GenerateInputLong("@GymId",gymId));
+            return _conn.ExecuteStoredProcedureAsScalarInt("Staff.GetGymSpecificProspectCount", sqlParams.ToArray());
+        }
+
         public long GetGymCountry(long gymId)
         {
             List<SqlParameter> sqlParams = new();
@@ -143,6 +150,28 @@ namespace WCL_BE.Connectivity
 
         }
 
+        public void CreateStaff(long? gymId, long countryId, long cityId, int judgingAbility, int fitnessCoaching,
+            int boxingCoaching, int wrestlingCoaching, int kickboxingCoaching, int submissionCoaching, int professionalism, int age, string firstName, string lastName)
+        {
+            List<SqlParameter> sqlParams = new();
+            if (gymId != null)
+            {
+                sqlParams.Add(_conn.GenerateInputLong("@GymId", gymId.Value));
+            }
+            sqlParams.Add(_conn.GenerateInputLong("@CountryId", countryId));
+            sqlParams.Add(_conn.GenerateInputLong("@CityId", cityId));
+            sqlParams.Add(_conn.GenerateInputInteger("@JudgingAbility", judgingAbility));
+            sqlParams.Add(_conn.GenerateInputInteger("@FitnessCoaching", fitnessCoaching));
+            sqlParams.Add(_conn.GenerateInputInteger("@BoxingCoaching", boxingCoaching));
+            sqlParams.Add(_conn.GenerateInputInteger("@WrestlingCoaching", wrestlingCoaching));
+            sqlParams.Add(_conn.GenerateInputInteger("@KickboxingCoaching", kickboxingCoaching));
+            sqlParams.Add(_conn.GenerateInputInteger("@SubmissionCoaching", submissionCoaching));
+            sqlParams.Add(_conn.GenerateInputInteger("@Professionalism", professionalism));
+            sqlParams.Add(_conn.GenerateInputInteger("@Age", age));
+            sqlParams.Add(_conn.GenerateInputString("@FirstName", firstName, 50));
+            sqlParams.Add(_conn.GenerateInputString("@Surname", lastName, 50));
+            _conn.ExecuteStoredProcedureNoReturn("staff.CreateNew", sqlParams.ToArray());
+        }
         public DataTable GetProspects(long gymId)
         {
             List<SqlParameter> sqlParams = new();
