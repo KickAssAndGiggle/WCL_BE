@@ -26,7 +26,7 @@ namespace WCL_BE.Managers
             int proffesionalism = _rnd.Next(1, 100);
             //staff creation age is anywhere between 18-30. rare to have staff under the age of 25.
             int age = _rnd.Next(18,30);
-            if(age > 25)
+            if(age < 25)
             {
                 age += _rnd.Next(0, 10);
             }
