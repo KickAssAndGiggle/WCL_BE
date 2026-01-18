@@ -57,6 +57,29 @@ namespace WCL_BE.Model
             public int Armbars;
             public int Leglocks;
         }
+        public class Staff
+        {
+            public long Id;
+            public DateTime CreatedDate;
+            public long? GymId;
+            public bool Associated;
+            public long CountryId;
+            public string Country;
+            public long CityId;
+            public string City;
+            public string FirstName;
+            public string Surname;
+            public string Nickname;
+            public DateTime Retired;
+            public int Age;
+            public int JudgingAbility;
+            public int FitnessCoaching;
+            public int BoxingCoaching;
+            public int KickboxingCoaching;
+            public int WrestlingCoaching;
+            public int SubmissionCoaching;
+            public int Professionalism;
+        }
 
         public static object ModelMaker(DataTable tab, Type type)
         {

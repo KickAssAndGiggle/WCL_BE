@@ -5,6 +5,7 @@ using static WCL_BE.Model.APIResponses;
 using static WCL_BE.Helpers.APIHelper;
 using System.Data;
 using WCL_BE.Managers;
+using System.Net;
 namespace WCL_BE.Processors
 {
     public class AccountProcessor
@@ -87,6 +88,7 @@ namespace WCL_BE.Processors
             {
                 long gymId = _db.GetGymFromAccount(accountId);
                 int prospectCount = _db.GetGymSpecificProspectCount(gymId);
+                int staffProspectCount = _db.GetStaffSpecificProspectCount(gymId);
                 if (prospectCount < 5)
                 {
                     // If a gym has less than 5 dedicated prospects, create some
@@ -95,6 +97,14 @@ namespace WCL_BE.Processors
                     for (int nn = 0; nn < (5 - prospectCount); nn++)
                     {
                         fm.CreateFighter(gymId);
+                    }
+                }
+                if(staffProspectCount < 5)
+                {
+                    StaffManager sm = new(_config);
+                    for(int nn = 0; nn < (5 - staffProspectCount); nn++)
+                    {
+                        sm.CreateStaff(gymId);
                     }
                 }
                 return CreateSuccessResponseWithData(gymId);
