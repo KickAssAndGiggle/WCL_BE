@@ -51,6 +51,22 @@ namespace WCL_BE.Processors
             }
         }
 
+        public GenericResponse GetUnemployedStaff(long accountId)
+        {
+            try
+            {
+                long gymId = _db.GetGymFromAccount(accountId);
+                DataTable dt = _db.GetUnemployedStaff(gymId);
+                Staff[] ret = (Staff[])ModelMaker(dt, typeof(Staff));
+                return CreateSuccessResponseWithData(ret);
+            }
+            catch (Exception ex)
+            {
+                _db.LogError(MethodBase.GetCurrentMethod()?.Module + "/" + MethodBase.GetCurrentMethod()?.Name!,
+                    ex.Message + " " + ex.StackTrace, accountId);
+                return CreateFailureResponse(GENERIC_ERROR);
+            }
+        }
 
     }
 }

@@ -186,5 +186,11 @@ namespace WCL_BE.Connectivity
             sqlParams.Add(_conn.GenerateInputLong("@GymId", gymId));
             _conn.ExecuteStoredProcedureNoReturn("fighter.AssignToGym", sqlParams.ToArray());
         }
+        public DataTable GetUnemployedStaff(long gymId)
+        {
+            List<SqlParameter> sqlParams = new();
+            sqlParams.Add(_conn.GenerateInputLong("@GymId", gymId));
+            return _conn.ExecuteStoredProcedureAsDataTable("staff.GetUnemployed", sqlParams.ToArray());   
+        }
     }
 }

@@ -5,6 +5,8 @@ using static WCL_BE.Model.APIRequests;
 using static WCL_BE.Model.APIResponses;
 using WCL_BE.Security;
 using static WCL_BE.Helpers.APIHelper;
+using WCL_BE.Managers;
+using Azure.Core;
 namespace WCL_BE.Controllers
 {
     [ApiController]
@@ -43,6 +45,17 @@ namespace WCL_BE.Controllers
                 return JsonConvert.SerializeObject(new GenericResponse() { Result = false, ErrorMessage = TOKEN_ERROR });
             }
             GenericResponse ret = _proc.AcceptProspectToGym(req.Id, accountId);
+            return JsonConvert.SerializeObject(ret, Formatting.Indented);
+        }
+        [HttpPost]
+        public string GetUnemployedStaff(TokenOnlyRequest req)
+        {
+            long accountId = _security.CheckToken(req.Token);
+            if (accountId < 1)
+            {
+                return JsonConvert.SerializeObject(new GenericResponse() { Result = false, ErrorMessage = TOKEN_ERROR });
+            }
+            GenericResponse ret = _proc.GetUnemployedStaff(accountId);
             return JsonConvert.SerializeObject(ret, Formatting.Indented);
         }
 
