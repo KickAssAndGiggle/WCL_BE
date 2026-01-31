@@ -17,7 +17,7 @@ namespace WCL_BE.Controllers
         private GymProcessor _proc;
         private Encryptor _security;
 
-        public GymController(IConfiguration config) 
+        public GymController(IConfiguration config)
         {
             _proc = new GymProcessor(config);
             _security = new(config);
@@ -59,5 +59,29 @@ namespace WCL_BE.Controllers
             return JsonConvert.SerializeObject(ret, Formatting.Indented);
         }
 
+        [HttpPost]
+        public string HireStaffMember(IdOnlyRequest req)
+        {
+            long accountId = _security.CheckToken(req.Token);
+            if (accountId < 1)
+            {
+                return JsonConvert.SerializeObject(new GenericResponse() { Result = false, ErrorMessage = TOKEN_ERROR });
+            }
+            GenericResponse ret = _proc.HireStaffMember(req.Id, accountId);
+            return JsonConvert.SerializeObject(ret, Formatting.Indented);
+
+        }
+
+        [HttpPost]
+        public string GetHiredStaff(TokenOnlyRequest req)
+        {
+            long accountId = _security.CheckToken(req.Token);
+            if (accountId < 1)
+            {
+                return JsonConvert.SerializeObject(new GenericResponse() { Result = false, ErrorMessage = TOKEN_ERROR });
+            }
+            GenericResponse ret = _proc.GetHiredStaff(accountId);
+            return JsonConvert.SerializeObject(ret, Formatting.Indented);
+        }
     }
 }

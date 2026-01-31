@@ -68,5 +68,38 @@ namespace WCL_BE.Processors
             }
         }
 
+        public GenericResponse HireStaffMember(long staffId, long accountId)
+        {
+            try
+            {
+                long gymId = _db.GetGymFromAccount(accountId);
+                _db.HireStaffMember(gymId, staffId);
+                return CreateSuccessResponseNoData();
+            }
+            catch (Exception ex)
+            {
+                _db.LogError(MethodBase.GetCurrentMethod()?.Module + "/" + MethodBase.GetCurrentMethod()?.Name!,
+                 ex.Message + " " + ex.StackTrace, accountId);
+                return CreateFailureResponse(GENERIC_ERROR);
+            }
+        }
+
+        public GenericResponse GetHiredStaff(long accountId)
+        {
+            try
+            {
+                long gymId = _db.GetGymFromAccount(accountId);
+                DataTable dt = _db.GetHiredStaff(gymId);
+                Staff[] ret = (Staff[])ModelMaker(dt, typeof(Staff));
+                return CreateSuccessResponseWithData(ret);
+            }
+            catch (Exception ex)
+            {
+                _db.LogError(MethodBase.GetCurrentMethod()?.Module + "/" + MethodBase.GetCurrentMethod()?.Name!,
+                    ex.Message + " " + ex.StackTrace, accountId);
+                return CreateFailureResponse(GENERIC_ERROR);
+            }
+        }
+
     }
 }

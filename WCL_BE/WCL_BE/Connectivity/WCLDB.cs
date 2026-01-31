@@ -11,7 +11,7 @@ namespace WCL_BE.Connectivity
 
         private DatabaseConnectivity _conn;
 
-        public WCLDB(string connectionString, bool keepAlive) 
+        public WCLDB(string connectionString, bool keepAlive)
         {
             _conn = new(connectionString, keepAlive);
         }
@@ -84,7 +84,7 @@ namespace WCL_BE.Connectivity
         public int GetStaffSpecificProspectCount(long gymId)
         {
             List<SqlParameter> sqlParams = new();
-            sqlParams.Add(_conn.GenerateInputLong("@GymId",gymId));
+            sqlParams.Add(_conn.GenerateInputLong("@GymId", gymId));
             return _conn.ExecuteStoredProcedureAsScalarInt("Staff.GetGymSpecificProspectCount", sqlParams.ToArray());
         }
 
@@ -92,7 +92,7 @@ namespace WCL_BE.Connectivity
         {
             List<SqlParameter> sqlParams = new();
             sqlParams.Add(_conn.GenerateInputLong("@GymId", gymId));
-            return _conn.ExecuteStoredProcedureAsScalarInt("gym.GetGymCountry", sqlParams.ToArray());            
+            return _conn.ExecuteStoredProcedureAsScalarInt("gym.GetGymCountry", sqlParams.ToArray());
         }
         public long GetGymCity(long gymId)
         {
@@ -102,10 +102,10 @@ namespace WCL_BE.Connectivity
         }
 
 
-        public void CreateFighter(long? gymId, long countryId, long cityId, long backgroundId, long weightId, long heightId, 
-            string firstName, string surname, int age, int chin, int heart, int strength, int agility, int stamina, 
-            int jabs, int crosses, int hooks, int uppercuts, int legKicks, int bodyKicks, int headKicks, int backfists, 
-            int elbows, int kneestrikes, int takedowns, int clinch, int takedownDefence, int headMovement, int footwork, 
+        public void CreateFighter(long? gymId, long countryId, long cityId, long backgroundId, long weightId, long heightId,
+            string firstName, string surname, int age, int chin, int heart, int strength, int agility, int stamina,
+            int jabs, int crosses, int hooks, int uppercuts, int legKicks, int bodyKicks, int headKicks, int backfists,
+            int elbows, int kneestrikes, int takedowns, int clinch, int takedownDefence, int headMovement, int footwork,
             int wrestling, int groundGuard, int chokes, int armbars, int leglocks)
         {
             List<SqlParameter> sqlParams = new();
@@ -182,7 +182,7 @@ namespace WCL_BE.Connectivity
         public void AcceptFighterToGym(long fighterId, long gymId)
         {
             List<SqlParameter> sqlParams = new();
-            sqlParams.Add(_conn.GenerateInputLong("@FighterId", gymId));
+            sqlParams.Add(_conn.GenerateInputLong("@FighterId", fighterId));
             sqlParams.Add(_conn.GenerateInputLong("@GymId", gymId));
             _conn.ExecuteStoredProcedureNoReturn("fighter.AssignToGym", sqlParams.ToArray());
         }
@@ -190,7 +190,33 @@ namespace WCL_BE.Connectivity
         {
             List<SqlParameter> sqlParams = new();
             sqlParams.Add(_conn.GenerateInputLong("@GymId", gymId));
-            return _conn.ExecuteStoredProcedureAsDataTable("staff.GetUnemployed", sqlParams.ToArray());   
+            return _conn.ExecuteStoredProcedureAsDataTable("staff.GetUnemployed", sqlParams.ToArray());
+        }
+        public void HireStaffMember(long gymId, long staffId)
+        {
+            List<SqlParameter> sqlParams = new();
+            sqlParams.Add(_conn.GenerateInputLong("@GymId", gymId));
+            sqlParams.Add(_conn.GenerateInputLong("@StaffId", staffId));
+            _conn.ExecuteStoredProcedureNoReturn("staff.HireStaffMember", sqlParams.ToArray());
+        }
+        public DataTable GetHiredStaff(long gymId)
+        {
+            List<SqlParameter> sqlParams = new();
+            sqlParams.Add(_conn.GenerateInputLong("@GymId", gymId));
+            return _conn.ExecuteStoredProcedureAsDataTable("staff.GetHiredStaff", sqlParams.ToArray());
+        }
+
+        public DataTable GenerateFirstNames (long countryId)
+        {
+            List<SqlParameter> sqlParams = new();
+            sqlParams.Add(_conn.GenerateInputLong("@CountryId", countryId));
+            return _conn.ExecuteStoredProcedureAsDataTable("GenerateFirstNames", sqlParams.ToArray());
+        }
+        public DataTable GenerateSurnames (long countryId)
+        {
+            List<SqlParameter> sqlParams = new();
+            sqlParams.Add(_conn.GenerateInputLong("@CountryId", countryId));
+            return _conn.ExecuteStoredProcedureAsDataTable("GenerateSurnames", sqlParams.ToArray());
         }
     }
 }
