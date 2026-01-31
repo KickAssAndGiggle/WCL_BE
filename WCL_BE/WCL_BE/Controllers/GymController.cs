@@ -83,5 +83,20 @@ namespace WCL_BE.Controllers
             GenericResponse ret = _proc.GetHiredStaff(accountId);
             return JsonConvert.SerializeObject(ret, Formatting.Indented);
         }
+
+
+        //demo API to test if Generating new Fight will work.
+        [HttpPost]
+        public string GenerateNewEvent(PromoterIdOnlyRequests req)
+        {
+            long accountId = _security.CheckToken(req.Token);
+            if (accountId < 1)
+            {
+                return JsonConvert.SerializeObject(new GenericResponse() { Result = false, ErrorMessage = TOKEN_ERROR });
+            }
+            GenericResponse ret = _proc.GenerateNewEvent(req.PromoterId);
+            return JsonConvert.SerializeObject(ret, Formatting.Indented);
+
+        }
     }
 }

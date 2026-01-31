@@ -218,5 +218,15 @@ namespace WCL_BE.Connectivity
             sqlParams.Add(_conn.GenerateInputLong("@CountryId", countryId));
             return _conn.ExecuteStoredProcedureAsDataTable("GenerateSurnames", sqlParams.ToArray());
         }
+
+        public void GenerateNewEvent(long promoterId, string name, DateTime signUpDate, DateTime fightNightDate)
+        {
+            List < SqlParameter > sqlParams = new();
+            sqlParams.Add(_conn.GenerateInputLong("@PromoterId", promoterId));
+            sqlParams.Add(_conn.GenerateInputString("@Name", name));
+            sqlParams.Add(_conn.GenerateInputDateTime("@SignUpDate", signUpDate));
+            sqlParams.Add(_conn.GenerateInputDateTime("@FightNightDate", fightNightDate));
+            _conn.ExecuteStoredProcedureNoReturn("Promoter.GenerateNewEvent", sqlParams.ToArray());
+        }
     }
 }

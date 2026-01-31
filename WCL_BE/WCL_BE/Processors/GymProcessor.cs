@@ -4,6 +4,7 @@ using WCL_BE.Connectivity;
 using static WCL_BE.Model.APIResponses;
 using static WCL_BE.Helpers.APIHelper;
 using static WCL_BE.Model.Model;
+using WCL_BE.Managers;
 namespace WCL_BE.Processors
 {
     public class GymProcessor
@@ -101,5 +102,11 @@ namespace WCL_BE.Processors
             }
         }
 
+        public GenericResponse GenerateNewEvent(long promoterId)
+        {
+            PromoterManager pm = new(_config);
+            pm.GenerateNewEvent(promoterId);
+            return CreateSuccessResponseNoData();
+        }
     }
 }
