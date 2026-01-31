@@ -205,5 +205,18 @@ namespace WCL_BE.Connectivity
             sqlParams.Add(_conn.GenerateInputLong("@GymId", gymId));
             return _conn.ExecuteStoredProcedureAsDataTable("staff.GetHiredStaff", sqlParams.ToArray());
         }
+
+        public DataTable GenerateFirstNames (long countryId)
+        {
+            List<SqlParameter> sqlParams = new();
+            sqlParams.Add(_conn.GenerateInputLong("@CountryId", countryId));
+            return _conn.ExecuteStoredProcedureAsDataTable("GenerateFirstNames", sqlParams.ToArray());
+        }
+        public DataTable GenerateSurnames (long countryId)
+        {
+            List<SqlParameter> sqlParams = new();
+            sqlParams.Add(_conn.GenerateInputLong("@CountryId", countryId));
+            return _conn.ExecuteStoredProcedureAsDataTable("GenerateSurnames", sqlParams.ToArray());
+        }
     }
 }

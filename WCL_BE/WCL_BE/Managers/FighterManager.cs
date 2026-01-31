@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using WCL_BE.Connectivity;
+using WCL_BE.Helpers;
 
 namespace WCL_BE.Managers
 {
@@ -30,6 +32,7 @@ namespace WCL_BE.Managers
         {
 
             LocationSelector(gymId, out long country, out long city);
+            APIHelper.GenerateNames(country, _db, out string firstName, out string surname);
             int age;
             if (gymId != null)
             {
@@ -353,7 +356,7 @@ namespace WCL_BE.Managers
             }
 
             // ###TODO - generate a sensible name for the country
-            _db.CreateFighter(gymId, country, city, background, weightClass, height, "Jim", "Jackson", age, chin, heart, 
+            _db.CreateFighter(gymId, country, city, background, weightClass, height, firstName, surname, age, chin, heart, 
                 strength, agility, stamina, jabs, crosses, hooks, uppercuts, legKicks, bodyKicks, headKicks, backFists, elbows, 
                 kneeStrikes, takedowns, clinch, takedownDefence, headMovement, footwork, wrestling, groundGuard, chokes, 
                 armbars, legLocks);
