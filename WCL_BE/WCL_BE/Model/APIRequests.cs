@@ -29,11 +29,5 @@
             public long Country { get; set; }
             public long City { get; set; }
         }
-        //added only to test event generation
-        public struct PromoterIdOnlyRequests
-        {
-            public string Token { get; set; }
-            public long PromoterId { get; set;}
-        }
     }
 }
