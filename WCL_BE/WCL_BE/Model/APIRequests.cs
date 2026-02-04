@@ -29,6 +29,5 @@
             public long Country { get; set; }
             public long City { get; set; }
         }
-
     }
 }

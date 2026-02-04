@@ -1,8 +1,10 @@
-﻿using System.Data;
+﻿using Microsoft.Identity.Client;
+using System.Data;
 using System.Reflection;
 using WCL_BE.Connectivity;
-using static WCL_BE.Model.APIResponses;
+using WCL_BE.Managers;
 using static WCL_BE.Helpers.APIHelper;
+using static WCL_BE.Model.APIResponses;
 using static WCL_BE.Model.Model;
 namespace WCL_BE.Processors
 {
@@ -101,5 +103,20 @@ namespace WCL_BE.Processors
             }
         }
 
+        public GenericResponse GenerateNewEvent(long promoterId, long accountId)
+        {
+            try
+            {
+            PromoterManager pm = new(_config);
+            pm.GenerateNewEvent(promoterId);
+            return CreateSuccessResponseNoData();
+            }
+            catch (Exception ex)
+            {
+                _db.LogError(MethodBase.GetCurrentMethod()?.Module + "/" + MethodBase.GetCurrentMethod()?.Name!,
+                    ex.Message + " " + ex.StackTrace, accountId);
+                return CreateFailureResponse(GENERIC_ERROR);
+            }
+        }
     }
 }
